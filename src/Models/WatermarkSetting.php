@@ -15,6 +15,8 @@ class WatermarkSetting extends Model
         'watermark_text',
         'watermark_text_size',
         'watermark_text_color',
-        'watermark_position'
+        'watermark_position',
+        'watermark_image_size',
+        'watermark_image_opacity',
     ];
 }

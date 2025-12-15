@@ -22,6 +22,8 @@ class WatermarkController extends Controller
             'watermark_text_color' => 'nullable|string',
             'watermark_position' => 'required|string',
             'watermark_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'watermark_image_size' => 'nullable|integer|min:5|max:80',
+            'watermark_image_opacity' => 'nullable|integer|min:5|max:80',
         ]);
 
         $data['use_image_watermark'] = $request->boolean('use_image_watermark');

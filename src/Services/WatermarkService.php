@@ -31,6 +31,21 @@ class WatermarkService
         $img->save();
     }
 
+    // protected function applyImageWatermark($img, $settings): void
+    // {
+    //     $watermarkPath = storage_path('app/public/' . $settings->watermark_image);
+    //     if (!file_exists($watermarkPath)) return;
+
+    //     $watermark = Image::make($watermarkPath);
+
+    //     $img->insert(
+    //         $watermark,
+    //         $settings->watermark_position ?? 'bottom-right',
+    //         10,
+    //         10
+    //     );
+    // }
+
     protected function applyImageWatermark($img, $settings): void
     {
         $watermarkPath = storage_path('app/public/' . $settings->watermark_image);
@@ -38,13 +53,28 @@ class WatermarkService
 
         $watermark = Image::make($watermarkPath);
 
+        // 1️⃣ Resize watermark (percentage of base image width)
+        $baseWidth = $img->width();
+        $targetWidth = intval($baseWidth * ($settings->watermark_image_size / 100));
+
+        $watermark->resize($targetWidth, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        // 2️⃣ Apply opacity
+        $opacity = max(0, min(100, $settings->watermark_image_opacity ?? 30));
+        $watermark->opacity($opacity);
+
+        // 3️⃣ Insert watermark
         $img->insert(
             $watermark,
-            $settings->watermark_position ?? 'bottom-right',
+            $settings->watermark_position ?? 'center',
             10,
             10
         );
     }
+
 
     protected function applyTextWatermark($img, $settings): void
     {
