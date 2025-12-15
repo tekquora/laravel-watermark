@@ -18,12 +18,13 @@ class WatermarkController extends Controller
         $data = $request->validate([
             'image_watermark_type' => 'required|in:image,text',
             'watermark_text' => 'nullable|string',
-            'watermark_text_size' => 'nullable|integer|min:8|max:200',
+            'watermark_text_size' => 'nullable|integer|min:8|max:300',
             'watermark_text_color' => 'nullable|string',
             'watermark_position' => 'required|string',
             'watermark_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'watermark_image_size' => 'nullable|integer|min:5|max:80',
-            'watermark_image_opacity' => 'nullable|integer|min:5|max:80',
+            'watermark_image_size' => 'nullable|integer|min:5|max:100',
+            'watermark_image_opacity' => 'nullable|integer|min:5|max:100',
+            'watermark_text_opacity' => 'nullable|integer|min:40|max:100',
         ]);
 
         $data['use_image_watermark'] = $request->boolean('use_image_watermark');

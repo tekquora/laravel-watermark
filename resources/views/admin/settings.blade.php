@@ -50,6 +50,24 @@
                                     <input type="number" name="watermark_text_size" class="form-control"
                                            value="{{ $settings->watermark_text_size ?? 20 }}">
                                 </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">
+                                        Text Opacity (<small class="text-muted">
+                                        <span>{{ $settings->watermark_text_opacity ?? 40 }}%</span>
+                                        </small>):
+                                    </label>
+
+                                    <input
+                                        type="range"
+                                        name="watermark_text_opacity"
+                                        class="form-range"
+                                        min="5"
+                                        max="100"
+                                        value="{{ $settings->watermark_text_opacity ?? 40 }}"
+                                        oninput="this.parentElement.querySelector('span').innerText = this.value + '%'"
+                                    >
+                                </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Text Color</label>
@@ -194,8 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = qs('watermark_text')?.value || 'Watermark Text';
             const size = parseInt(qs('watermark_text_size')?.value || 20);
             const color = qs('watermark_text_color')?.value || '#cccccc';
-
-            ctx.globalAlpha = 0.4;
+            const opacity = parseInt(qs('watermark_text_opacity')?.value || 40);
+            
+            ctx.globalAlpha = opacity / 100;
+            // ctx.globalAlpha = 0.4;
             ctx.fillStyle = color;
             ctx.font = `${size}px Arial`;
             ctx.textAlign = 'center';

@@ -11,6 +11,8 @@ return new class extends Migration {
                   ->comment('Percentage of base image width');
             $table->integer('watermark_image_opacity')->default(30)
                   ->comment('Opacity percentage 0-100');
+            $table->integer('watermark_text_opacity')->default(40)
+                  ->comment('Text Opacity percentage 0-100');
         });
     }
 
@@ -19,7 +21,8 @@ return new class extends Migration {
         Schema::table('watermark_settings', function (Blueprint $table) {
             $table->dropColumn([
                 'watermark_image_size',
-                'watermark_image_opacity'
+                'watermark_image_opacity',
+                'watermark_text_opacity'
             ]);
         });
     }
