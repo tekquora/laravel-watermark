@@ -33,5 +33,14 @@ class WatermarkServiceProvider extends ServiceProvider
             ImageUploaded::class,
             ApplyWatermarkListener::class
         );
+
+        //Sidebar menu
+        if (class_exists(\Illuminate\Support\Facades\Event::class)) {
+            event('watermark.sidebar.register', [
+                'title' => 'Watermark',
+                'url'   => url(config('watermark.route.prefix')),
+                'icon'  => 'image'
+            ]);
+        }
     }
 }

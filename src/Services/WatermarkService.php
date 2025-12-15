@@ -33,7 +33,7 @@ class WatermarkService
 
     protected function applyImageWatermark($img, $settings): void
     {
-        $watermarkPath = storage_path('app/' . $settings->watermark_image);
+        $watermarkPath = storage_path('app/public/' . $settings->watermark_image);
         if (!file_exists($watermarkPath)) return;
 
         $watermark = Image::make($watermarkPath);
