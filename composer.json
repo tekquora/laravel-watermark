@@ -1,0 +1,28 @@
+{
+  "name": "tekquora/laravel-watermark",
+  "description": "Plug-and-play image watermark module for Laravel",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "TekQuora",
+      "email": "info@tekquora.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tekquora\\Watermark\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Tekquora\\Watermark\\WatermarkServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "intervention/image": "^2.7"
+  }
+}
