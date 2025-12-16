@@ -23,6 +23,6 @@
   },
   "require": {
     "php": "^8.0",
-    "intervention/image": "^2.7"
+    "intervention/image": "^2.7 || ^3.0"
   }
 }
