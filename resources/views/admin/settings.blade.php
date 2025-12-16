@@ -25,16 +25,17 @@
                                    name="use_image_watermark" id="use_image_watermark"
                                    {{ optional($settings)->use_image_watermark ? 'checked' : '' }}>
                             <label class="form-check-label">Enable Watermark</label>
+                            <input type="hidden" name="image_watermark_type" id="wm_type" value="image">
                         </div>
 
                         {{-- Type --}}
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label class="form-label">Watermark Type</label>
                             <select name="image_watermark_type" id="wm_type" class="form-control">
-                                <option value="text" {{ optional($settings)->image_watermark_type === 'text' ? 'selected' : '' }}>Text</option>
                                 <option value="image" {{ optional($settings)->image_watermark_type === 'image' ? 'selected' : '' }}>Image</option>
+                                <option value="text" {{ optional($settings)->image_watermark_type === 'text' ? 'selected' : '' }}>Text</option>
                             </select>
-                        </div>
+                        </div> -->
 
                         {{-- TEXT OPTIONS --}}
                         <div id="text_fields">
@@ -118,7 +119,7 @@
                                         style="max-width:100%;border:1px solid #ddd"></canvas>
                             </div>
                             <small class="text-muted">
-                                Real-time preview for image & text watermark
+                                Real-time preview
                             </small>
                         </div>
 
