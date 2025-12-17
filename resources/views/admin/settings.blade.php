@@ -1,6 +1,6 @@
 @extends('watermark::layouts.wrapper')
 
-@section('content')
+@section('watermark-content')
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-10 col-md-12">

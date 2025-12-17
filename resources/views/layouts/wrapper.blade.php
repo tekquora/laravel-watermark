@@ -1,19 +1,13 @@
 @php
-    $layout = config('watermark.layout');
+    $layout = config('watermark.views.layout');
 @endphp
 
-@if ($layout['type'] === 'component')
-    <x-dynamic-component :component="$layout['component']">
-        {{ $slot }}
-    </x-dynamic-component>
-
-@elseif ($layout['type'] === 'blade')
-    @extends($layout['view'])
+@if (View::exists($layout))
+    @extends($layout)
 
     @section('content')
-        {{ $slot }}
+        @yield('watermark-content')
     @endsection
-
 @else
-    {{ $slot }}
+    @yield('watermark-content')
 @endif
