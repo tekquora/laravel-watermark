@@ -1,4 +1,4 @@
-@extends(config('watermark.views.layout'))
+@extends('watermark::layouts.wrapper')
 
 @section('content')
 <div class="container-fluid">
