@@ -21,9 +21,26 @@ return [
         'custom_routes' => null,
     ],
 
-    'views' => [
-        // Layout to extend
-        'layout' => 'layouts.app',
+     /*
+    |--------------------------------------------------------------------------
+    | Layout Configuration (EXPLICIT)
+    |--------------------------------------------------------------------------
+    |
+    | type:
+    |   - blade     => classic @extends layout
+    |   - component => Blade component layout (<x-*>)
+    |   - none      => no layout
+    |
+    */
+
+    'layout' => [
+        'type' => 'blade', // blade | component | none
+
+        // For blade
+        'view' => 'layouts.app',
+
+        // For component
+        'component' => 'app-layout',
     ],
 
 ];

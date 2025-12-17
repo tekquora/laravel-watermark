@@ -1,25 +1,19 @@
 @php
-    $layout = config('watermark.views.layout');
+    $layout = config('watermark.layout');
 @endphp
 
-@if ($layout === 'layouts.app' && View::exists('components.app-layout'))
-    {{-- Component-based layout (Breeze / Jetstream) --}}
-    <x-app-layout>
-        <div class="py-6">
-            {{ $slot ?? '' }}
-            @yield('content')
-        </div>
-    </x-app-layout>
-@elseif (View::exists($layout))
-    {{-- Classic Blade layout --}}
-    @extends($layout)
+@if ($layout['type'] === 'component')
+    <x-dynamic-component :component="$layout['component']">
+        {{ $slot }}
+    </x-dynamic-component>
+
+@elseif ($layout['type'] === 'blade')
+    @extends($layout['view'])
 
     @section('content')
-        {{ $slot ?? '' }}
-        @yield('content')
+        {{ $slot }}
     @endsection
+
 @else
-    {{-- Fallback --}}
-    {{ $slot ?? '' }}
-    @yield('content')
+    {{ $slot }}
 @endif
