@@ -33,14 +33,21 @@ return [
     |
     */
 
-    'layout' => [
-        'type' => 'blade', // blade | component | none
+    // 'views' => [
+    //     /*
+    //     | This MUST be a Blade layout that has @yield('content')
+    //     | NOT a Blade component like <x-app-layout>
+    //     */
+    //     'layout' => 'layouts.app',
+    // ],
 
-        // For blade
-        'view' => 'layouts.app',
-
-        // For component
-        'component' => 'app-layout',
+    'views' => [
+        /*
+        | Layout can be:
+        | - Blade view string
+        | - Callable that returns blade view
+        */
+        'layout' => null,
     ],
 
 ];
