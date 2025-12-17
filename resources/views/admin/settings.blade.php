@@ -1,4 +1,4 @@
-@extends(config('watermark.admin_layout', 'layouts.app'))
+@extends(config('watermark.views.layout'))
 
 @section('content')
 <div class="container-fluid">
@@ -28,56 +28,6 @@
                             <input type="hidden" name="image_watermark_type" id="wm_type" value="image">
                         </div>
 
-                        {{-- Type --}}
-                        <!-- <div class="mb-3">
-                            <label class="form-label">Watermark Type</label>
-                            <select name="image_watermark_type" id="wm_type" class="form-control">
-                                <option value="image" {{ optional($settings)->image_watermark_type === 'image' ? 'selected' : '' }}>Image</option>
-                                <option value="text" {{ optional($settings)->image_watermark_type === 'text' ? 'selected' : '' }}>Text</option>
-                            </select>
-                        </div> -->
-
-                        {{-- TEXT OPTIONS --}}
-                        <div id="text_fields">
-                            <div class="mb-3">
-                                <label class="form-label">Watermark Text</label>
-                                <input type="text" name="watermark_text" class="form-control"
-                                       value="{{ $settings->watermark_text ?? '' }}">
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Text Size</label>
-                                    <input type="number" name="watermark_text_size" class="form-control"
-                                           value="{{ $settings->watermark_text_size ?? 20 }}">
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">
-                                        Text Opacity (<small class="text-muted">
-                                        <span>{{ $settings->watermark_text_opacity ?? 40 }}%</span>
-                                        </small>):
-                                    </label>
-
-                                    <input
-                                        type="range"
-                                        name="watermark_text_opacity"
-                                        class="form-range"
-                                        min="5"
-                                        max="100"
-                                        value="{{ $settings->watermark_text_opacity ?? 40 }}"
-                                        oninput="this.parentElement.querySelector('span').innerText = this.value + '%'"
-                                    >
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Text Color</label>
-                                    <input type="color" name="watermark_text_color"
-                                           class="form-control form-control-color"
-                                           value="{{ $settings->watermark_text_color ?? '#cccccc' }}">
-                                </div>
-                            </div>
-                        </div>
 
                         {{-- IMAGE OPTIONS --}}
                         <div id="image_fields" style="display:none">
@@ -150,7 +100,6 @@
 <script>
 function toggleFields() {
     const type = document.getElementById('wm_type').value;
-    document.getElementById('text_fields').style.display = type === 'text' ? 'block' : 'none';
     document.getElementById('image_fields').style.display = type === 'image' ? 'block' : 'none';
 
     if (typeof window.drawPreview === 'function') {
@@ -208,22 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.globalAlpha = 1;
         }
 
-        // TEXT WATERMARK
-        if (type === 'text') {
-            const text = qs('watermark_text')?.value || 'Watermark Text';
-            const size = parseInt(qs('watermark_text_size')?.value || 20);
-            const color = qs('watermark_text_color')?.value || '#cccccc';
-            const opacity = parseInt(qs('watermark_text_opacity')?.value || 40);
-            
-            ctx.globalAlpha = opacity / 100;
-            // ctx.globalAlpha = 0.4;
-            ctx.fillStyle = color;
-            ctx.font = `${size}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-            ctx.globalAlpha = 1;
-        }
     };
 
     window.handleWatermarkUpload = function (input) {

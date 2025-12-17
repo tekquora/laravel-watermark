@@ -1,7 +1,9 @@
 <?php
+
 namespace Tekquora\Watermark;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Tekquora\Watermark\Events\ImageUploaded;
 use Tekquora\Watermark\Listeners\ApplyWatermarkListener;
 
@@ -9,12 +11,15 @@ class WatermarkServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/watermark.php', 'watermark');
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/watermark.php',
+            'watermark'
+        );
     }
 
     public function boot()
     {
-        // Config
+        // Publish config
         $this->publishes([
             __DIR__.'/../config/watermark.php' => config_path('watermark.php'),
         ], 'watermark-config');
@@ -26,21 +31,35 @@ class WatermarkServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'watermark');
 
         // Routes
-        $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+        $this->registerRoutes();
 
         // Events
         $this->app['events']->listen(
             ImageUploaded::class,
             ApplyWatermarkListener::class
         );
+    }
 
-        //Sidebar menu
-        if (class_exists(\Illuminate\Support\Facades\Event::class)) {
-            event('watermark.sidebar.register', [
-                'title' => 'Watermark',
-                'url'   => url(config('watermark.route.prefix')),
-                'icon'  => 'image'
-            ]);
+    protected function registerRoutes(): void
+    {
+        $config = config('watermark.route');
+
+        if (!$config['enabled']) {
+            return;
         }
+
+        // Host app overrides routes completely
+        if (is_callable($config['custom_routes'])) {
+            call_user_func($config['custom_routes']);
+            return;
+        }
+
+        Route::group([
+            'prefix' => $config['prefix'],
+            'middleware' => $config['middleware'],
+            'as' => $config['name_prefix'],
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+        });
     }
 }
