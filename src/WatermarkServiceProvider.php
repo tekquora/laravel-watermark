@@ -42,24 +42,26 @@ class WatermarkServiceProvider extends ServiceProvider
 
     protected function registerRoutes(): void
     {
-        $config = config('watermark.route');
+        $config = config('watermark.route', []);
 
-        if (!$config['enabled']) {
+        // ✅ SAFE default
+        if (!($config['enabled'] ?? true)) {
             return;
         }
 
-        // Host app overrides routes completely
-        if (is_callable($config['custom_routes'])) {
+        // Custom route hook
+        if (isset($config['custom_routes']) && is_callable($config['custom_routes'])) {
             call_user_func($config['custom_routes']);
             return;
         }
 
         Route::group([
-            'prefix' => $config['prefix'],
-            'middleware' => $config['middleware'],
-            'as' => $config['name_prefix'],
+            'prefix' => $config['prefix'] ?? 'admin/watermark',
+            'middleware' => $config['middleware'] ?? ['web', 'auth'],
+            'as' => $config['name_prefix'] ?? 'watermark.',
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
         });
     }
+
 }
