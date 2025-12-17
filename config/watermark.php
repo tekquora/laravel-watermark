@@ -2,9 +2,9 @@
 
 return [
 
-    'route' => [
-        'enabled' => true,
+    'enabled' => true,
 
+    'route' => [
         // Default admin prefix
         'prefix' => 'admin/watermark',
 
